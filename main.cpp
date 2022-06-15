@@ -14,11 +14,14 @@ string rtrim(const string &);
 
 string dayOfProgrammer(int year) {
     string dateOfProgrammer = "";
+    int targetDays = 256; //Day of the programmer
     bool leapYear = false;
     bool gregorian = false;
     bool transition = false;
-    int daysOfTheMonth [] {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
+    int daysOfTheMonth [] {0, 31, 28, 31, 30, 31, 30, 31, 31,
+                           30, 31, 30, 31};
+    string months [] {"ERROR", "01", "02","03","04", "05","06","07","08",
+                      "09","10","11","12"};
     //Intake Year
 
 
@@ -70,15 +73,39 @@ string dayOfProgrammer(int year) {
         }
     }
 
-    // If it is 1917 or prior, leap years are divisible only by 4
-
-    //if it is 1918 or after, leap years are divisible by 400 OR divisible by 4 but not 100.
 
     //update an array of days in the month, of size 12, w/ elements 1-12 corresponding to Jan-Dec.
     // Note: Element 0 is not used to align index w/ month. All months except Feb will be constant.
     // Feb will equal 28 unless in a leap year. If leap year, then Feb = 29
+    if (leapYear) {
+        daysOfTheMonth[2] = 29;
+    }
 
     //Find the 256th day of the year output as dd.mm.yyyy
+
+    //Determine the month by determining how many element sums it takes to equal 256 days (the day of the Programmer)
+    //# of days of the year (excluding Feb in all 3 cases)
+    bool dayThreshold = false;
+    int runningSum = 0;
+    int monthIndex = 0;
+    int excessDays = 0;
+    while (!dayThreshold) {
+        if (runningSum < targetDays) {
+            runningSum =+ daysOfTheMonth[monthIndex];
+            monthIndex++;
+        }
+        else {
+            dayThreshold = true;
+        }
+    }
+
+    string month = months[monthIndex];
+    excessDays = runningSum - targetDays;
+    int intDay = daysOfTheMonth[monthIndex] - excessDays;
+    string day = to_string (intDay);
+    string strYear = to_string (year);
+
+    dateOfProgrammer = day + "." + month + "." + strYear;
 
     return dateOfProgrammer;
 }
