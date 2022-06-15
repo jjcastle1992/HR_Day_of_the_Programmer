@@ -114,6 +114,9 @@ string dayOfProgrammer(int year) {
 
 int main()
 {
+    int minYear = 1700;
+    int maxYear = 2700;
+
     ofstream fout(getenv("OUTPUT_PATH"));
 
     string year_temp;
@@ -121,9 +124,11 @@ int main()
 
     int year = stoi(ltrim(rtrim(year_temp)));
 
-    string result = dayOfProgrammer(year);
+    if (year >= minYear && year <= maxYear) {
+        string result = dayOfProgrammer(year);
 
-    fout << result << "\n";
+        fout << result << "\n";
+    }
 
     fout.close();
 
