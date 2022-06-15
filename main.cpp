@@ -15,13 +15,60 @@ string rtrim(const string &);
 string dayOfProgrammer(int year) {
     string dateOfProgrammer = "";
     bool leapYear = false;
+    bool gregorian = false;
+    bool transition = false;
     int daysOfTheMonth [] {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     //Intake Year
 
-    //Determine if the date is 1917 or before or 1918 or after
 
-    //determine if it is a leap year
+    //Determine if the date is 1917 or before, 1918 (special case) or 1919 and after
+    if (year <= 1917) {
+        gregorian = false;
+        transition = false;
+    }
+
+    else if (year == 1918) {
+        gregorian = false;
+        transition = true; //(1918 was NOT a leap year and Feb had 14 days)
+        leapYear = false;
+        daysOfTheMonth[2] = 14;
+    }
+
+    else if (year >= 1919) {
+        gregorian = true;
+        transition = false;
+    }
+
+    //determine if it is a leap year (1918 was NOT a leap year and Feb had 14 days)
+    if (!transition) {
+        if (gregorian) {
+            //Gregorian leap years are EITHER
+            // 1) Divisible by 400
+            // 2) Divisible by 4, but NOT 100
+            int fourHundredRemainder = 0;
+            int isFourRemainder = 0;
+            int notOneHundredRemainder = 0;
+            fourHundredRemainder = year % 400;
+            if (fourHundredRemainder == 0) {
+                leapYear = true;
+            }
+
+            else {
+                isFourRemainder = year % 4;
+                notOneHundredRemainder = year % 100;
+                if (isFourRemainder == 0 && notOneHundredRemainder != 0) {
+                    leapYear = true;
+                }
+            }
+        }
+        else {
+            //Julian Calendar leap years are just divisible by 4
+            if ((year % 4) == 0) {
+                leapYear = true;
+            }
+        }
+    }
 
     // If it is 1917 or prior, leap years are divisible only by 4
 
