@@ -92,7 +92,9 @@ string dayOfProgrammer(int year) {
     while (!dayThreshold) {
         if (runningSum < targetDays) {
             runningSum += daysOfTheMonth[monthIndex];
-            monthIndex++;
+            if (runningSum < targetDays) {
+                monthIndex++;
+            }
         }
         else {
             dayThreshold = true;
