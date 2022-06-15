@@ -35,7 +35,7 @@ string dayOfProgrammer(int year) {
         gregorian = false;
         transition = true; //(1918 was NOT a leap year and Feb had 14 days)
         leapYear = false;
-        daysOfTheMonth[2] = 14;
+        daysOfTheMonth[2] = 15;
     }
 
     else if (year >= 1919) {
